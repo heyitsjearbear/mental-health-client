@@ -6,14 +6,38 @@ const Welcome: React.FC = () => {
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (isLogin) {
       // Handle login logic here
       console.log("Login:", email, password);
     } else {
       // Handle registration logic here
-      console.log("Register:", email, password);
+      try {
+        const response = await fetch("http://localhost:3000/api/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        });
+        
+        const data = await response.json();
+
+        if (!response.ok) {
+          // Handle error
+          console.log(data);
+        } else {
+          // Registration was successful
+          console.log(data);
+        }
+      } catch (error) {
+        // Handle network error
+        console.error("Network error:", error);
+      }
     }
   };
 
