@@ -1,0 +1,15 @@
+.panel {
+  background: linear-gradient(#a2bded, #ddd4e3, #a2bded);
+  border-radius: 20px; /* Adjust as needed for rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: adds subtle shadow */
+  padding: 20px;
+  width: 100%; /* Make the panel take up the full width on small screens */
+  margin: auto;
+}
+
+@media (min-width: 768px) {
+  /* Apply these styles for screens that are 768px or wider */
+  .panel {
+    width: 300px; /* Use a fixed width for larger screens */
+  }
+}
