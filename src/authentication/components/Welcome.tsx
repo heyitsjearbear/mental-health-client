@@ -13,10 +13,37 @@ const Welcome: React.FC = () => {
     event.preventDefault();
     if (isLogin) {
       //TODO Handle login logic here
-      
+      try {
+        const response = await fetch("http://localhost:3000/api/signin", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          // Handle error
+          console.log(data);
+        } else {
+          // Registration was successful
+          // console.log(data);
+          login(data.token);
+          navigate("/home");
+        }
+      } catch (error) {
+        // Handle network error
+        console.error("Network error:", error);
+      }
     } else {
       // Handle registration logic here
       console.log("registering...");
+      console.log({ email, password });
       try {
         const response = await fetch("http://localhost:3000/api/signup", {
           method: "POST",
@@ -28,7 +55,7 @@ const Welcome: React.FC = () => {
             password: password,
           }),
         });
-        
+
         const data = await response.json();
 
         if (!response.ok) {
