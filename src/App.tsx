@@ -6,16 +6,21 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
+import { AuthProvider } from "./authentication/context/authContext";
+import Home from "./home/components/Home";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/auth" element={<Welcome />} />
-        <Route path="/" element={<Navigate to="/auth" />} />
-        {/* Add more routes as needed */}
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/auth" element={<Welcome />} />
+          <Route path="/" element={<Navigate to="/auth" />} />
+          {/* Add more routes as needed */}
+          <Route path="/home" element={<Home />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 

@@ -1,18 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Container, Form, Button, Card } from "react-bootstrap";
 import "./styles.css";
+import { AuthContext } from "../context/authContext";
+import { useNavigate } from "react-router-dom";
 const Welcome: React.FC = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
-
+  const { login } = useContext(AuthContext);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (isLogin) {
-      // Handle login logic here
-      console.log("Login:", email, password);
+      //TODO Handle login logic here
+      
     } else {
       // Handle registration logic here
+      console.log("registering...");
       try {
         const response = await fetch("http://localhost:3000/api/signup", {
           method: "POST",
@@ -32,7 +36,9 @@ const Welcome: React.FC = () => {
           console.log(data);
         } else {
           // Registration was successful
-          console.log(data);
+          // console.log(data);
+          login(data.token);
+          navigate("/home");
         }
       } catch (error) {
         // Handle network error
