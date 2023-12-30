@@ -50,4 +50,6 @@ To learn React, check out the [React documentation](https://reactjs.org/).
     - [x] create schema for journal entires
     - [x] create endpoints for journal entries
     - [x] also add this to each user, every user has array of journal entries
+    - [ ] have to figure out how to store entries in front end
+    so that whenever i have to refresh home page, they're available, don't have to make an api call
     - send as json for now, then format nicely with css
