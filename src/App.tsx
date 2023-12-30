@@ -8,18 +8,21 @@ import {
 } from "react-router-dom";
 import { AuthProvider } from "./authentication/context/authContext";
 import Home from "./home/components/Home";
+import { JournalProvider } from "./home/context/journalContext";
 
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="/auth" element={<Welcome />} />
-          <Route path="/" element={<Navigate to="/auth" />} />
-          {/* Add more routes as needed */}
-          <Route path="/home" element={<Home />} />
-        </Routes>
-      </Router>
+      <JournalProvider>
+        <Router>
+          <Routes>
+            <Route path="/auth" element={<Welcome />} />
+            <Route path="/" element={<Navigate to="/auth" />} />
+            {/* Add more routes as needed */}
+            <Route path="/home" element={<Home />} />
+          </Routes>
+        </Router>
+      </JournalProvider>
     </AuthProvider>
   );
 }

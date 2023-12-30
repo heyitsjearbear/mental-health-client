@@ -47,7 +47,7 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 ## TODO - BY ME
 - [ ] CRUD for journal entries on login
-    - create schema for journal entires
-    - create endpoints for journal entries
-    - also add this to each user, every user has array of journal entries
+    - [x] create schema for journal entires
+    - [x] create endpoints for journal entries
+    - [x] also add this to each user, every user has array of journal entries
     - send as json for now, then format nicely with css

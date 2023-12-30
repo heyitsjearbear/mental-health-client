@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { Container, Form, Button, Card } from "react-bootstrap";
 import "./styles.css";
 import { AuthContext } from "../context/authContext";
+import { JournalContext } from "../../home/context/journalContext";
 import { useNavigate } from "react-router-dom";
 const Welcome: React.FC = () => {
   const navigate = useNavigate();
@@ -9,6 +10,7 @@ const Welcome: React.FC = () => {
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
   const { login } = useContext(AuthContext);
+  const { setUserId } = useContext(JournalContext);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (isLogin) {
@@ -33,6 +35,7 @@ const Welcome: React.FC = () => {
         } else {
           // Registration was successful
           // console.log(data);
+          setUserId(data.userId);
           login(data.token);
           navigate("/home");
         }
