@@ -13,6 +13,7 @@ interface JournalContextProps {
   fetchEntries: () => void;
   userId: string | null;
   setUserId: (id: string) => void;
+  updateUser: (id: string | null) => void;
 }
 
 export const JournalContext = createContext<JournalContextProps>({
@@ -20,6 +21,7 @@ export const JournalContext = createContext<JournalContextProps>({
   fetchEntries: () => {},
   userId: null,
   setUserId: () => {},
+  updateUser: () => {},
 });
 
 export const JournalProvider: React.FC<React.PropsWithChildren<{}>> = ({
@@ -30,6 +32,13 @@ export const JournalProvider: React.FC<React.PropsWithChildren<{}>> = ({
     const savedEntries = sessionStorage.getItem(`entries-${userId}`);
     return savedEntries ? JSON.parse(savedEntries) : [];
   });
+
+  const updateUser = (id: string | null) => {
+    // Clear the entries state
+    setEntries([]);
+    // Then set the new user ID
+    setUserId(id);
+  };
 
   const fetchEntries = useCallback(async () => {
     try {
@@ -57,7 +66,7 @@ export const JournalProvider: React.FC<React.PropsWithChildren<{}>> = ({
 
   return (
     <JournalContext.Provider
-      value={{ entries, fetchEntries, userId, setUserId }}
+      value={{ entries, fetchEntries, userId, setUserId,updateUser }}
     >
       {children}
     </JournalContext.Provider>

@@ -10,7 +10,7 @@ const Welcome: React.FC = () => {
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
   const { login } = useContext(AuthContext);
-  const { setUserId } = useContext(JournalContext);
+  const { setUserId, updateUser } = useContext(JournalContext);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (isLogin) {
@@ -35,7 +35,7 @@ const Welcome: React.FC = () => {
         } else {
           // Registration was successful
           // console.log(data);
-          setUserId(data.userId);
+          updateUser(data.userId);
           login(data.token);
           navigate("/home");
         }
