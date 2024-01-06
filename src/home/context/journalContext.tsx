@@ -22,39 +22,44 @@ export const JournalContext = createContext<JournalContextProps>({
   setUserId: () => {},
 });
 
-
 export const JournalProvider: React.FC<React.PropsWithChildren<{}>> = ({
-    children,
-  }) => {
-    const [entries, setEntries] = useState<JournalEntry[]>(() => {
-      const savedEntries = sessionStorage.getItem("entries");
-      return savedEntries ? JSON.parse(savedEntries) : [];
-    });
-    const [userId, setUserId] = useState<string | null>(null);
-  
-    const fetchEntries = useCallback(async () => {
-      try {
-        const response = await fetch(`http://localhost:3000/api/${userId}/journals`);
-        const data = await response.json();
-        setEntries(data);
-      } catch (error) {
-        console.error("Failed to fetch entries:", error);
-      }
-    }, [userId]);
-    useEffect(() => {
-      // Save the entries to sessionStorage whenever they change
-      sessionStorage.setItem('entries', JSON.stringify(entries));
-    }, [entries]);
-  
-    useEffect(() => {
-      if (userId) {
-        fetchEntries();
-      }
-    }, [userId, fetchEntries]);
-  
-    return (
-      <JournalContext.Provider value={{ entries, fetchEntries, userId, setUserId }}>
-        {children}
-      </JournalContext.Provider>
-    );
-  };
+  children,
+}) => {
+  const [userId, setUserId] = useState<string | null>(null);
+  const [entries, setEntries] = useState<JournalEntry[]>(() => {
+    const savedEntries = sessionStorage.getItem(`entries-${userId}`);
+    return savedEntries ? JSON.parse(savedEntries) : [];
+  });
+
+  const fetchEntries = useCallback(async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/${userId}/journals`
+      );
+      const data = await response.json();
+      setEntries(data);
+    } catch (error) {
+      console.error("Failed to fetch entries:", error);
+    }
+  }, [userId]);
+  useEffect(() => {
+    // Save the entries to sessionStorage whenever they change
+    if (userId) {
+      sessionStorage.setItem(`entries-${userId}`, JSON.stringify(entries));
+    }
+  }, [entries, userId]);
+
+  useEffect(() => {
+    if (userId) {
+      fetchEntries();
+    }
+  }, [userId, fetchEntries]);
+
+  return (
+    <JournalContext.Provider
+      value={{ entries, fetchEntries, userId, setUserId }}
+    >
+      {children}
+    </JournalContext.Provider>
+  );
+};
