@@ -26,7 +26,10 @@ export const JournalContext = createContext<JournalContextProps>({
 export const JournalProvider: React.FC<React.PropsWithChildren<{}>> = ({
     children,
   }) => {
-    const [entries, setEntries] = useState<JournalEntry[]>([]);
+    const [entries, setEntries] = useState<JournalEntry[]>(() => {
+      const savedEntries = sessionStorage.getItem("entries");
+      return savedEntries ? JSON.parse(savedEntries) : [];
+    });
     const [userId, setUserId] = useState<string | null>(null);
   
     const fetchEntries = useCallback(async () => {
@@ -38,6 +41,10 @@ export const JournalProvider: React.FC<React.PropsWithChildren<{}>> = ({
         console.error("Failed to fetch entries:", error);
       }
     }, [userId]);
+    useEffect(() => {
+      // Save the entries to sessionStorage whenever they change
+      sessionStorage.setItem('entries', JSON.stringify(entries));
+    }, [entries]);
   
     useEffect(() => {
       if (userId) {
